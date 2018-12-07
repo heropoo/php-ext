@@ -76,7 +76,7 @@ PHP_FUNCTION(hello_world)
 		return;
 	}
 
-	strg = strpprintf(0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "hello_world", arg);
+	strg = strpprintf(0, "Hello World: %s", arg);
 
 	RETURN_STR(strg);
 }

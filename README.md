@@ -40,22 +40,31 @@ code and repeat the last two steps as often as necessary.
 Dynamic compilation option
 ```
 PHP_ARG_WITH(hello_world, for hello_world support,
-dnf Make sure that the comment is aligned:
+Make sure that the comment is aligned:
 [  --with-hello_world             Include hello_world support])
 ```
 
 Static compilation option
 ```
 PHP_ARG_ENABLE(hello_world, whether to enable hello_world support,
-dnf Make sure that the comment is aligned:
+Make sure that the comment is aligned:
 [  --enable-hello_world           Enable hello_world support])
 ```
 
+We choose Static compilation option
+
 4. build
 ```
-sudo apt install gcc autoconf libxml2-dev
-
-./buildconf --force
-make
+ phpize
+ ./configure
+ make
+ sudo make install
 ```
+
+5. edit `php.ini`
+```
+extension=hello_world.so
+```
+
+
 
