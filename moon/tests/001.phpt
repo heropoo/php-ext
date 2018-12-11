@@ -1,10 +1,10 @@
 --TEST--
-Check for hello_world presence
+Check for moon presence
 --SKIPIF--
-<?php if (!extension_loaded("hello_world")) print "skip"; ?>
+<?php if (!extension_loaded("moon")) print "skip"; ?>
 --FILE--
 <?php 
-echo "hello_world extension is available";
+echo "moon extension is available";
 /*
 	you can add regression tests for your extension here
 
@@ -18,4 +18,4 @@ echo "hello_world extension is available";
 */
 ?>
 --EXPECT--
-hello_world extension is available
+moon extension is available

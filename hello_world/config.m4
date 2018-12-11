@@ -14,7 +14,7 @@ dnl [  --with-hello_world             Include hello_world support])
 dnl Otherwise use enable:
 
 PHP_ARG_ENABLE(hello_world, whether to enable hello_world support,
-Make sure that the comment is aligned:
+dnl Make sure that the comment is aligned:
 [  --enable-hello_world           Enable hello_world support])
 
 if test "$PHP_HELLO_WORLD" != "no"; then

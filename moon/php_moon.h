@@ -18,20 +18,20 @@
 
 /* $Id$ */
 
-#ifndef PHP_HELLO_WORLD_H
-#define PHP_HELLO_WORLD_H
+#ifndef PHP_MOON_H
+#define PHP_MOON_H
 
-extern zend_module_entry hello_world_module_entry;
-#define phpext_hello_world_ptr &hello_world_module_entry
+extern zend_module_entry moon_module_entry;
+#define phpext_moon_ptr &moon_module_entry
 
-#define PHP_HELLO_WORLD_VERSION "0.1.0" /* Replace with version number for your extension */
+#define PHP_MOON_VERSION "0.1.0" /* Replace with version number for your extension */
 
 #ifdef PHP_WIN32
-#	define PHP_HELLO_WORLD_API __declspec(dllexport)
+#	define PHP_MOON_API __declspec(dllexport)
 #elif defined(__GNUC__) && __GNUC__ >= 4
-#	define PHP_HELLO_WORLD_API __attribute__ ((visibility("default")))
+#	define PHP_MOON_API __attribute__ ((visibility("default")))
 #else
-#	define PHP_HELLO_WORLD_API
+#	define PHP_MOON_API
 #endif
 
 #ifdef ZTS
@@ -42,23 +42,30 @@ extern zend_module_entry hello_world_module_entry;
   	Declare any global variables you may need between the BEGIN
 	and END macros here:
 
-ZEND_BEGIN_MODULE_GLOBALS(hello_world)
+ZEND_BEGIN_MODULE_GLOBALS(moon)
 	zend_long  global_value;
 	char *global_string;
-ZEND_END_MODULE_GLOBALS(hello_world)
+ZEND_END_MODULE_GLOBALS(moon)
 */
 
-/* Always refer to the globals in your function as HELLO_WORLD_G(variable).
+/* Always refer to the globals in your function as MOON_G(variable).
    You are encouraged to rename these macros something shorter, see
    examples in any other php module directory.
 */
-#define HELLO_WORLD_G(v) ZEND_MODULE_GLOBALS_ACCESSOR(hello_world, v)
+#define MOON_G(v) ZEND_MODULE_GLOBALS_ACCESSOR(moon, v)
 
-#if defined(ZTS) && defined(COMPILE_DL_HELLO_WORLD)
+#if defined(ZTS) && defined(COMPILE_DL_MOON)
 ZEND_TSRMLS_CACHE_EXTERN()
 #endif
 
-#endif	/* PHP_HELLO_WORLD_H */
+/* MoonAutoload */
+//PHP_METHOD(MoonAutoload, __construct);
+//PHP_METHOD(MoonAutoload, __destruct);
+//PHP_METHOD(MoonAutoload, addNamespace);
+
+
+
+#endif	/* PHP_MOON_H */
 
 
 /*

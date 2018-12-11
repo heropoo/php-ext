@@ -25,21 +25,21 @@
 #include "php.h"
 #include "php_ini.h"
 #include "ext/standard/info.h"
-#include "php_hello_world.h"
+#include "php_moon.h"
 
-/* If you declare any globals in php_hello_world.h uncomment this:
-ZEND_DECLARE_MODULE_GLOBALS(hello_world)
+/* If you declare any globals in php_moon.h uncomment this:
+ZEND_DECLARE_MODULE_GLOBALS(moon)
 */
 
 /* True global resources - no need for thread safety here */
-static int le_hello_world;
+static int le_moon;
 
 /* {{{ PHP_INI
  */
 /* Remove comments and fill if you need to have entries in php.ini
 PHP_INI_BEGIN()
-    STD_PHP_INI_ENTRY("hello_world.global_value",      "42", PHP_INI_ALL, OnUpdateLong, global_value, zend_hello_world_globals, hello_world_globals)
-    STD_PHP_INI_ENTRY("hello_world.global_string", "foobar", PHP_INI_ALL, OnUpdateString, global_string, zend_hello_world_globals, hello_world_globals)
+    STD_PHP_INI_ENTRY("moon.global_value",      "42", PHP_INI_ALL, OnUpdateLong, global_value, zend_moon_globals, moon_globals)
+    STD_PHP_INI_ENTRY("moon.global_string", "foobar", PHP_INI_ALL, OnUpdateString, global_string, zend_moon_globals, moon_globals)
 PHP_INI_END()
 */
 /* }}} */
@@ -49,9 +49,9 @@ PHP_INI_END()
    purposes. */
 
 /* Every user-visible function in PHP should document itself in the source */
-/* {{{ proto string confirm_hello_world_compiled(string arg)
+/* {{{ proto string confirm_moon_compiled(string arg)
    Return a string to confirm that the module is compiled in */
-PHP_FUNCTION(confirm_hello_world_compiled)
+PHP_FUNCTION(confirm_moon_compiled)
 {
 	char *arg = NULL;
 	size_t arg_len, len;
@@ -61,49 +61,9 @@ PHP_FUNCTION(confirm_hello_world_compiled)
 		return;
 	}
 
-	strg = strpprintf(0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "hello_world", arg);
+	strg = strpprintf(0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "moon", arg);
 
 	RETURN_STR(strg);
-}
-
-PHP_FUNCTION(say)
-{
-	zend_string *strg;
-	strg = strpprintf(0, "Hello World.");
-	RETURN_STR(strg);
-}
-
-PHP_FUNCTION(default_value)
-{
-	zend_string *type;
-	zval        *value = NULL;
-
-#ifndef FAST_ZPP
-	/* Get function parameters and do error-checking. */
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "S|z", &type, &value) == FAILURE) {
-		return;
-	}
-#else
-	ZEND_PARSE_PARAMETERS_START(1, 2)
-	Z_PARAM_STR(type)
-	Z_PARAM_OPTIONAL
-	Z_PARAM_ZVAL_EX(value, 0, 1)
-    ZEND_PARSE_PARAMETERS_END();
-#endif
-	if (ZSTR_LEN(type) == 3 && strncmp(ZSTR_VAL(type), "int", 3) == 0 && value == NULL) {
-		RETURN_LONG(0);
-	} else if (ZSTR_LEN(type) == 3 && strncmp(ZSTR_VAL(type), "int", 3) == 0 && value != NULL) {
-		RETURN_ZVAL(value, 0, 1);
-	} else if (ZSTR_LEN(type) == 4 && strncmp(ZSTR_VAL(type), "bool", 4) == 0 && value == NULL) {
-		RETURN_FALSE;
-	} else if (ZSTR_LEN(type) == 4 && strncmp(ZSTR_VAL(type), "bool", 4) == 0 && value != NULL) {
-		RETURN_ZVAL(value, 0, 1);
-	} else if (ZSTR_LEN(type) == 3 && strncmp(ZSTR_VAL(type), "str", 3) == 0 && value == NULL) {
-		RETURN_EMPTY_STRING();
-	} else if (ZSTR_LEN(type) == 3 && strncmp(ZSTR_VAL(type), "str", 3) == 0 && value != NULL) {
-		RETURN_ZVAL(value, 0, 1);
-	}
-	RETURN_NULL();
 }
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and
@@ -113,20 +73,20 @@ PHP_FUNCTION(default_value)
 */
 
 
-/* {{{ php_hello_world_init_globals
+/* {{{ php_moon_init_globals
  */
 /* Uncomment this function if you have INI entries
-static void php_hello_world_init_globals(zend_hello_world_globals *hello_world_globals)
+static void php_moon_init_globals(zend_moon_globals *moon_globals)
 {
-	hello_world_globals->global_value = 0;
-	hello_world_globals->global_string = NULL;
+	moon_globals->global_value = 0;
+	moon_globals->global_string = NULL;
 }
 */
 /* }}} */
 
 /* {{{ PHP_MINIT_FUNCTION
  */
-PHP_MINIT_FUNCTION(hello_world)
+PHP_MINIT_FUNCTION(moon)
 {
 	/* If you have INI entries, uncomment these lines
 	REGISTER_INI_ENTRIES();
@@ -137,7 +97,7 @@ PHP_MINIT_FUNCTION(hello_world)
 
 /* {{{ PHP_MSHUTDOWN_FUNCTION
  */
-PHP_MSHUTDOWN_FUNCTION(hello_world)
+PHP_MSHUTDOWN_FUNCTION(moon)
 {
 	/* uncomment this line if you have INI entries
 	UNREGISTER_INI_ENTRIES();
@@ -149,9 +109,9 @@ PHP_MSHUTDOWN_FUNCTION(hello_world)
 /* Remove if there's nothing to do at request start */
 /* {{{ PHP_RINIT_FUNCTION
  */
-PHP_RINIT_FUNCTION(hello_world)
+PHP_RINIT_FUNCTION(moon)
 {
-#if defined(COMPILE_DL_HELLO_WORLD) && defined(ZTS)
+#if defined(COMPILE_DL_MOON) && defined(ZTS)
 	ZEND_TSRMLS_CACHE_UPDATE();
 #endif
 	return SUCCESS;
@@ -161,7 +121,7 @@ PHP_RINIT_FUNCTION(hello_world)
 /* Remove if there's nothing to do at request end */
 /* {{{ PHP_RSHUTDOWN_FUNCTION
  */
-PHP_RSHUTDOWN_FUNCTION(hello_world)
+PHP_RSHUTDOWN_FUNCTION(moon)
 {
 	return SUCCESS;
 }
@@ -169,10 +129,10 @@ PHP_RSHUTDOWN_FUNCTION(hello_world)
 
 /* {{{ PHP_MINFO_FUNCTION
  */
-PHP_MINFO_FUNCTION(hello_world)
+PHP_MINFO_FUNCTION(moon)
 {
 	php_info_print_table_start();
-	php_info_print_table_header(2, "hello_world support", "enabled");
+	php_info_print_table_header(2, "moon support", "enabled");
 	php_info_print_table_end();
 
 	/* Remove comments if you have entries in php.ini
@@ -181,40 +141,53 @@ PHP_MINFO_FUNCTION(hello_world)
 }
 /* }}} */
 
-/* {{{ hello_world_functions[]
+/* {{{ moon_functions[]
  *
- * Every user visible function must have an entry in hello_world_functions[].
+ * Every user visible function must have an entry in moon_functions[].
  */
-const zend_function_entry hello_world_functions[] = {
-	PHP_FE(confirm_hello_world_compiled,	NULL)		/* For testing, remove later. */
-	PHP_FE(say,	NULL)		/* For testing, remove later. */
-	PHP_FE(default_value,	NULL)		/* For testing, remove later. */
-	PHP_FE_END	/* Must be the last line in hello_world_functions[] */
+const zend_function_entry moon_functions[] = {
+	PHP_FE(confirm_moon_compiled,	NULL)		/* For testing, remove later. */
+	PHP_FE_END	/* Must be the last line in moon_functions[] */
 };
 /* }}} */
 
-/* {{{ hello_world_module_entry
+/* {{{ moon_module_entry
  */
-zend_module_entry hello_world_module_entry = {
+zend_module_entry moon_module_entry = {
 	STANDARD_MODULE_HEADER,
-	"hello_world",
-	hello_world_functions,
-	PHP_MINIT(hello_world),
-	PHP_MSHUTDOWN(hello_world),
-	PHP_RINIT(hello_world),		/* Replace with NULL if there's nothing to do at request start */
-	PHP_RSHUTDOWN(hello_world),	/* Replace with NULL if there's nothing to do at request end */
-	PHP_MINFO(hello_world),
-	PHP_HELLO_WORLD_VERSION,
+	"moon",
+	moon_functions,
+	PHP_MINIT(moon),
+	PHP_MSHUTDOWN(moon),
+	PHP_RINIT(moon),		/* Replace with NULL if there's nothing to do at request start */
+	PHP_RSHUTDOWN(moon),	/* Replace with NULL if there's nothing to do at request end */
+	PHP_MINFO(moon),
+	PHP_MOON_VERSION,
 	STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
 
-#ifdef COMPILE_DL_HELLO_WORLD
+#ifdef COMPILE_DL_MOON
 #ifdef ZTS
 ZEND_TSRMLS_CACHE_DEFINE()
 #endif
-ZEND_GET_MODULE(hello_world)
+ZEND_GET_MODULE(moon)
 #endif
+
+//PHP_METHOD(MoonAutoload, __construct)
+//{
+//	php_printf("MoonAutoload::__construct called.");
+//}
+//
+//PHP_METHOD(MoonAutoload, __destruct)
+//{
+//	php_printf("MoonAutoload::__destruct called.");
+//}
+//
+//PHP_METHOD(MoonAutoload, addNamespace)
+//{
+//	php_printf("MoonAutoload::addNamespace called.");
+//}
 
 /*
  * Local variables:
