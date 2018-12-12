@@ -11,6 +11,12 @@ wget http://am1.php.net/distributions/php-7.2.13.tar.gz
 tar zxvf php-7.2.13.tar.gz
 ``` 
 
+or git clone php-src
+```
+git clone https://git.php.net/repository/php-src.git
+git checkout php-7.2.13 
+```
+
 2. create a extension
 ```
 cd php-7.2.13/ext/
