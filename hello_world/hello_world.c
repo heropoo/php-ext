@@ -66,30 +66,42 @@ PHP_FUNCTION(confirm_hello_world_compiled)
 	RETURN_STR(strg);
 }
 
-PHP_FUNCTION(say)
+PHP_FUNCTION(hw_say)
 {
 	zend_string *strg;
 	strg = strpprintf(0, "Hello World.");
 	RETURN_STR(strg);
 }
 
-PHP_FUNCTION(default_value)
+PHP_FUNCTION(hw_say2)
+{
+	char *arg = NULL;
+	size_t arg_len, len;
+	zend_string *strg;
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &arg, &arg_len) == FAILURE) {
+		return;
+	}
+	strg = strpprintf(0, "Hello World. %s", arg);
+	RETURN_STR(strg);
+}
+
+PHP_FUNCTION(hw_default_value)
 {
 	zend_string *type;
 	zval        *value = NULL;
 
-#ifndef FAST_ZPP
+// #ifndef FAST_ZPP
 	/* Get function parameters and do error-checking. */
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "S|z", &type, &value) == FAILURE) {
 		return;
 	}
-#else
-	ZEND_PARSE_PARAMETERS_START(1, 2)
-	Z_PARAM_STR(type)
-	Z_PARAM_OPTIONAL
-	Z_PARAM_ZVAL_EX(value, 0, 1)
-    ZEND_PARSE_PARAMETERS_END();
-#endif
+// #else
+// 	ZEND_PARSE_PARAMETERS_START(1, 2)
+// 	Z_PARAM_STR(type)
+// 	Z_PARAM_OPTIONAL
+// 	Z_PARAM_ZVAL_EX(value, 0, 1)
+//     ZEND_PARSE_PARAMETERS_END();
+// #endif
 	if (ZSTR_LEN(type) == 3 && strncmp(ZSTR_VAL(type), "int", 3) == 0 && value == NULL) {
 		RETURN_LONG(0);
 	} else if (ZSTR_LEN(type) == 3 && strncmp(ZSTR_VAL(type), "int", 3) == 0 && value != NULL) {
@@ -186,9 +198,10 @@ PHP_MINFO_FUNCTION(hello_world)
  * Every user visible function must have an entry in hello_world_functions[].
  */
 const zend_function_entry hello_world_functions[] = {
-	PHP_FE(confirm_hello_world_compiled,	NULL)		/* For testing, remove later. */
-	PHP_FE(say,	NULL)		/* For testing, remove later. */
-	PHP_FE(default_value,	NULL)		/* For testing, remove later. */
+	PHP_FE(confirm_hello_world_compiled, NULL)		/* For testing, remove later. */
+	PHP_FE(hw_say, NULL)		
+	PHP_FE(hw_say2,	NULL)		
+	PHP_FE(hw_default_value, NULL)		
 	PHP_FE_END	/* Must be the last line in hello_world_functions[] */
 };
 /* }}} */
