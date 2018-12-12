@@ -12,8 +12,6 @@ RUN sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config
 ENV ROOT_PASSWORD 123456
 RUN echo "root:${ROOT_PASSWORD}" | chpasswd
 
-WORKDIR /usr/src
-
 EXPOSE 22
 EXPOSE 80
 
