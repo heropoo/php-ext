@@ -1,4 +1,4 @@
-php-*
-.vscode
-.idea
+php-src/
+.vscode/
+.idea/
 tests/*.out
