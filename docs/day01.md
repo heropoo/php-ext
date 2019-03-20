@@ -6,6 +6,7 @@
 git clone https://git.php.net/repository/php-src.git
 # 或者使用github的镜像git地址 
 git clone https://github.com/php/php-src.git
+<<<<<<< HEAD
 # checkout the last tag php-7.3.3
 cd php-src 
 git checkout php-7.3.3  
@@ -46,7 +47,5 @@ set tags+=/server/php-src/tags
 :set tags+=/server/php-src/tags
 ```
 使用 `Ctrl+]` 就可以自动跳转至定义，`Ctrl+t` 可以返回上一次查看位置。
-
-
 
 
